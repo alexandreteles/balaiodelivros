@@ -35,14 +35,19 @@
           <div class="mb-3">
                 <label for="phisicalstate">Estado fisico do livro</label>
                 {{form.phisicalstate(class= "form-control",  placeholder="Paginas amareladas, marcas com canetas, etc")}}
-                
+
           </div>
           <div class="mb-3">
                 <label for="price">Preço do livro</label>
                 {{form.price(class= "form-control")}}
           </div>
-          <hr class="mb-4">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Salvar</button>
+
+         <div class="form-group">
+            <label for="FormControlFile">Carregar imagens do livro</label>
+             <input type="file" class="form-control-file" id="FormControlFile">
+         </div>
+         <hr class="mb-4">
+         <button class="btn btn-lg btn-primary btn-block" type="submit">Salvar</button>
 
         </form>
 </div>

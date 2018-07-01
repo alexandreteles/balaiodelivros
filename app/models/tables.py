@@ -50,7 +50,7 @@ class User(UserMixin, db.Model):
 class Book(db.Model):
     __tablename__ = "books"
 
-    id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
     title = db.Column(db.String(80), nullable=False)
     author = db.Column(db.String(80), nullable=False)
     serie = db.Column(db.String(80), nullable=False)

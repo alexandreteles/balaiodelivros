@@ -8,12 +8,13 @@
               <thead>
                 <tr>
                   <th width="5%"> ID </th>
-                  <th width="20%"> Title </th>
-                  <th width="15%"> Author </th>
+                  <th width="20%"> Titulo </th>
+                  <th width="15%"> Autor </th>
                   <th width="25%"> Tipo </th>
                   <th width="15%"> Preço </th>
-                  <th width="10%"> Edit </th>
-                  <th width="10%"> Delete </th>
+                  <th width="6,66%"> Edit </th>
+                  <th width="6,66%"> Delete </th>
+                  <th width="6,66%"> Interessado </th>
                 </tr>
               </thead>
               <tbody>
@@ -25,10 +26,13 @@
                   <td> {{ book.type }} </td>
                   <td> {{ book.price }} </td>
                   <td>
-                    <a href="#" class="btn btn-warning" style="margin-left: 8px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <a href="{{ url_for('editbook', id=book.id) }}" class="btn btn-warning" style="margin-left: 8px;"><i class="far fa-edit" aria-hidden="true"></i></a>
                   </td>
                   <td>
-                    <a href="#" class="btn btn-danger" style="margin-left: 8px;"><i class="fa fa-trash-o" aria-hidden="true"></i> </a>
+                    <a href="{{ url_for('deletebook', id=book.id) }}" class="btn btn-danger" style="margin-left: 8px;"><i class="fas fa-trash" aria-hidden="true"></i></a>
+                  </td>
+                  <td>
+                    <a href="{{ url_for('interested', id=book.id) }}" class="btn btn-info" style="margin-left: 8px;" tabindex="-1" aria-disabled="true"><i class="far fa-comment" aria-hidden="true" ></i></a>
                   </td>
                 </tr>
               {% endfor %}

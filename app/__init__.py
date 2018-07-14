@@ -14,12 +14,16 @@ Bootstrap(app)
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_message = "Você deve fazer login para acessar a página"
+login_manager.login_view = "signin"
 migrate = Migrate(app, db)
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
-from app.controllers import routes, bookController, searchController
+
+from app.controllers import routes, bookController, searchController, interestedController, userController
 from app.models import tables
 
 app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \

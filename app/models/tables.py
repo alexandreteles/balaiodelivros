@@ -1,21 +1,13 @@
-from app import app, db, login_manager
+from app import db, login_manager
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-import sys
-
-if sys.version_info >= (3, 0):
-    enable_search = False
-else:
-    enable_search = True
-    import flask_whooshalchemy as whooshalchemy
-
 
 
 class User(UserMixin, db.Model):
     __tablename__ = "users"
-    __searchable__ = ['name', 'email', 'reputation']
 
-    cpfuser = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    cpfuser = db.Column(db.Integer, unique=True, nullable=False)
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     pw_hash = db.Column(db.String(80))
@@ -23,8 +15,9 @@ class User(UserMixin, db.Model):
     reputation = db.Column(db.Float)
     dtbirth = db.Column(db.Date)
     grant = db.Column(db.Integer)
+    about_me = db.Column(db.String(140))
 
-    def __init__(self, cpfuser, name, email, address, reputation, dtbirth, grant):
+    def __init__(self, cpfuser, name, email, address, reputation, dtbirth, grant, password, about_me):
         self.name = name
         self.cpfuser = cpfuser
         self.email = email
@@ -32,20 +25,8 @@ class User(UserMixin, db.Model):
         self.reputation = reputation
         self.dtbirth = dtbirth
         self.grant = grant
-
-    @property
-    def password(self):
-        """
-        Impede que a senha seja acessada
-        """
-        raise AttributeError('A senha e um atributo secreto.')
-
-    @password.setter
-    def password(self, password):
-        """
-        Faz o hash da senha
-        """
         self.pw_hash = generate_password_hash(password)
+        self.about_me = about_me
     
     def verify_password(self, password):
         """
@@ -55,10 +36,14 @@ class User(UserMixin, db.Model):
     
     def __repr__(self):
         return "<User %r>" % self.name
-     
+
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
+
+
 class Book(db.Model):
     __tablename__ = "books"
-    __searchable__ = ['title', 'author','school', 'translateversion', 'price', 'type']
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     title = db.Column(db.String(80), nullable=False)
@@ -71,9 +56,9 @@ class Book(db.Model):
     type = db.Column(db.String(80), nullable=False)
     #sold = db.Column(db.Integer)
     price = db.Column(db.Float)
-    user_cpf = db.Column(db.Integer, db.ForeignKey("users.cpfuser"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     
-    user = db.relationship('User', foreign_keys = user_cpf)
+    user = db.relationship('User', foreign_keys = user_id)
 
     def __init__ (self, title, author, serie, school, edition, translateversion, phisicalstate, price, user_cpf, type):
         self.title = title
@@ -90,18 +75,20 @@ class Book(db.Model):
     def __repr__(self):
         return "<Book %r>" % self.title     
 
-class Interest(db.Model):
-    __tablename__ = "interests"
+class Interested(db.Model):
+    __tablename__ = "interested"
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    user_cpf = db.Column(db.Integer, db.ForeignKey("users.cpfuser"))
+    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    interested_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     book_id = db.Column(db.Integer, db.ForeignKey("books.id"))
 
-    user = db.relationship('User', foreign_keys = user_cpf)
+    user = db.relationship('User', foreign_keys = owner_id)
+    user2 = db.relationship('User', foreign_keys=interested_id)
     book = db.relationship('Book', foreign_keys = book_id)
 
-    def __init__ (self, user_cpf, book_id):
-        self.user_cpf = user_cpf
+    def __init__ (self, user_id, book_id):
+        self.user_id = user_id
         self.book_id = book_id
     
     def __repr__(self):
@@ -111,14 +98,14 @@ class Ad(db.Model):
     __tablename__ = "ads"
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    user_cpf = db.Column(db.Integer, db.ForeignKey("users.cpfuser"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     book_id = db.Column(db.Integer, db.ForeignKey("books.id"))
 
-    user = db.relationship('User', foreign_keys = user_cpf)
+    user = db.relationship('User', foreign_keys = user_id)
     book = db.relationship('Book', foreign_keys = book_id)
 
-    def __init__ (self, user_cpf, book_id):
-        self.user_cpf = user_cpf
+    def __init__ (self, user_id, book_id):
+        self.user_id = user_id
         self.book_id = book_id
     
     def __repr__(self):
@@ -139,6 +126,3 @@ class BookImage(db.Model):
         self.name= name
         self.book_id = book_id
 
-
-if enable_search:
-    whooshalchemy.whoosh_index(app, Book)

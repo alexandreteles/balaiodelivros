@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center">
+    <h1 class="h3 mb-3 font-weight-normal">Entrar</h1>
+</div>
+<div class="container">
+    <form class="form-signup" action= "" method="POST">
+        {{form.csrf_token}}
+
+        <div class="row">
+            <div class="col-md-12">
+                <label for="name">Nome Completo</label>
+                {{form.name(class= "form-control")}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="email">Email</label>
+                {{form.email(class= "form-control")}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="password">Senha</label>
+                {{form.password(class= "form-control")}}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="confirm_password">Confirme a senha</label>
+                {{form.confirm_password(class= "form-control")}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="cpfuser">CPF</label>
+                {{form.cpfuser(class= "form-control")}}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="dtbirth">Data de nascimento</label>
+                {{form.dtbirth(class= "form-control")}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="address">Endereço</label>
+                {{form.address(class= "form-control")}}
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-md-12">
+                <label for="about_me">Sobre mim</label>
+                {{form.about_me(class= "form-control", placeholder="Conte um pouco sobre você")}}
+            </div>
+        </div>
+        <br>
+       <button class="btn btn-lg btn-primary" type="submit">Cadastrar</button>
+    </form>
+  </div>
+{% endblock %}

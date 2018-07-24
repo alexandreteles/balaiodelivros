@@ -33,6 +33,7 @@ def editbook(id):
     book = tables.Book.query.get(id)
     form = bookform()
     if form.validate_on_submit():
+<<<<<<< HEAD
         book.title=form.title.data
         book.author=form.author.data
         book.serie= form.serie.data
@@ -70,6 +71,27 @@ def listbooks(id):
 
     books = tables.Book.query.filter_by(user_id=id).all()
 
+=======
+        book = tables.Book(title=form.title.data, author=form.author.data, serie= form.serie.data, school= form.school.data, edition= form.edition.data, translateversion= form.translateversion.data, phisicalstate = form.phisicalstate.data, price = form.price.data, type= form.type.data, user_id= current_user.id)
+        print(form.title.data)
+        print(form.price.data)
+        try:
+            db.session.add(book)
+            db.session.commit()
+            flash('Voce editou um livro com sucesso!')
+        except:
+            flash('Erro ao editar livro')
+
+    return render_template("book/bookform.html", form = form)
+
+@app.route("/listbooks/<id>",  methods = ["GET", "POST"])
+@login_required
+def listbooks(id):
+    #owner_id = current_user.id
+    #print(current_user.id)
+    books = tables.Book.query.filter_by(user_id=id).all()
+    #books = tables.Book.query.all()
+>>>>>>> ffcbbf1ed35ba574f13b78c7189c745b88bbb44b
     return render_template("book/listbooks.html", books=books)
 
 @app.route("/listbooks/deletebook/<id>",  methods = ["GET", "POST"])

@@ -12,6 +12,7 @@
                     <form class="search" action= "{{ url_for('search') }}" method="POST">
                          {{form.csrf_token}}
 
+<<<<<<< HEAD
                         <div class="input-group mb-3">
                             {{form.search(class= "form-control", id="search", placeholder="O que você procura?")}}
                             <div class="input-group-append">
@@ -21,6 +22,28 @@
                             </div>
                         </div>
                     </form>
+=======
+                        <div class="col-md-10">
+                             {{form.search(class= "form-control", id="input_search", placeholder="O que você procura?")}}
+                              <button type="submit" onclick="" class="button_search">
+                              <i class="fa fa-search" ></i>
+                          </button>
+
+                         </div>
+                    </form>
+                    <!-- <form action="{{ url_for('search') }}">
+                        {{form.search(class= "form-control", placeholder="O que você procura?")}}
+                         <button type="submit" onclick="" class="button_search">
+                              <i class="fa fa-search" ></i>
+                          </button>
+                     </form>-->
+                    <!--<div class="form-group">
+                          <input type="text" id="input_search" placeholder="O que você procura?">
+                          <button type="submit" onclick="" class="button_search">
+                              <i class="fa fa-search" ></i>
+                          </button>
+                    </div>-->
+>>>>>>> ffcbbf1ed35ba574f13b78c7189c745b88bbb44b
                     </div>
                 </div>
             </div>

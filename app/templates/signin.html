@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="text-center">
+    <form class="form-signin" action= "" method="POST">
+       {{form.csrf_token}}
+      <h1 class="h3 mb-3 font-weight-normal">Entrar</h1>
+       <div class="row">
+      <label for="email" class="sr-only">Email</label>
+       {{form.email(class= "form-control", placeholder="Email")}}
+       </div>
+       <div class="row">
+      <label for="password" class="sr-only">Senha</label>
+      {{form.password(class= "form-control", placeholder="Senha")}}
+       </div>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember_me"> Lembrar minha senha
+        </label>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+      <br>
+      <div class="col-md-6">
+      <a href="{{ url_for('signup') }}" class="btn btn-success" role="button">Registre-se</a>
+      </div>
+      <p class="mt-5 mb-3 text-muted">&copy; DCC - 2018</p>
+    </form>
+  </div>
+{% endblock %}

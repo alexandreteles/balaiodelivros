@@ -5,6 +5,7 @@
         <div class="well profile">
             <div class="col-sm-12">
                 <div class="col-xs-12">
+<<<<<<< HEAD
                     <i class="fas fa-user-circle fa-2x"></i><h2>{{ user.name }}</h2>
                     {% if user.about_me %}<p><strong>About-me: {{ user.about_me }}</strong></p>{% endif %}
                     <p>
@@ -13,10 +14,25 @@
                         <i class="fas fa-map-marker-alt"> </i>{{ user.address }}
                         <br>
                         <i class="fas fa-star"> </i>{{ user.reputation }}
+=======
+                    <div class="row"><i class="fas fa-user-circle fa-2x"></i><h2>{{ user.name }}</h2></div>
+                    {% if user.about_me %}<p><strong>About-me: {{ user.about_me }}</strong></p>{% endif %}
+                    <p>
+                        <i class="far fa-envelope"></i>{{ user.email }}
+                        <br />
+                        <i class="fas fa-map-marker-alt"></i>{{ user.address }}
+                        <br />
+                        <i class="fas fa-star"></i>{{ user.reputation }}
+>>>>>>> ffcbbf1ed35ba574f13b78c7189c745b88bbb44b
                     </p>
                 </div>
 
                 <div class="btn-group">
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> ffcbbf1ed35ba574f13b78c7189c745b88bbb44b
                     {% if user == current_user %}
                       <a href="{{ url_for('listbooks', id = current_user.id) }}" class="btn btn-outline-warning" role="button"> Ver meus livros <i class="fas fa-book"></i></a>
                       <a href="{{ url_for('edit_profile') }}" class="btn btn-outline-info" role="button">Editar perfil <i class="fas fa-cog"></i></a>
@@ -24,6 +40,10 @@
                     {% else %}
                         <a href="{{ url_for('listbooks', id= user.id) }}" class="btn btn-outline-warning" role="button"> Ver livros do usuário<i class="fas fa-book"></i></a>
                     {% endif %}
+<<<<<<< HEAD
+=======
+
+>>>>>>> ffcbbf1ed35ba574f13b78c7189c745b88bbb44b
                 </div>
             </div>
         </div>

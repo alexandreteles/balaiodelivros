@@ -15,6 +15,7 @@ class signupform(FlaskForm):
     confirm_password = PasswordField('confirm_password')
     address = StringField("address", validators= [DataRequired()])
     dtbirth = StringField("dtbirth", validators= [DataRequired()])
+    about_me = TextAreaField("about_me")
 
     def validate_email(self, field):
         if tables.User.query.filter_by(email=field.data).first():

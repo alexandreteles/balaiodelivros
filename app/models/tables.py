@@ -60,7 +60,7 @@ class Book(db.Model):
     
     user = db.relationship('User', foreign_keys = user_id)
 
-    def __init__ (self, title, author, serie, school, edition, translateversion, phisicalstate, price, user_cpf, type):
+    def __init__ (self, title, author, serie, school, edition, translateversion, phisicalstate, price, user_id, type):
         self.title = title
         self.author = author
         self.serie = serie
@@ -69,7 +69,7 @@ class Book(db.Model):
         self.translateversion = translateversion
         self.phisicalstate = phisicalstate
         self.price = price
-        self.user_cpf= user_cpf
+        self.user_id= user_id
         self.type = type
 
     def __repr__(self):
@@ -87,8 +87,9 @@ class Interested(db.Model):
     user2 = db.relationship('User', foreign_keys=interested_id)
     book = db.relationship('Book', foreign_keys = book_id)
 
-    def __init__ (self, user_id, book_id):
-        self.user_id = user_id
+    def __init__ (self, owner_id, book_id, interested_id):
+        self.owner_id = owner_id
+        self.interested_id = interested_id
         self.book_id = book_id
     
     def __repr__(self):

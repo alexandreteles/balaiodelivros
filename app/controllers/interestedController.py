@@ -3,12 +3,26 @@ from flask_login import current_user, login_required
 
 from app import app, db
 from app.models import tables
-from app.models.bookform import bookform
 
 
 @app.route("/interested/<id>",  methods = ["GET", "POST"])
 @login_required
 def interested(id):
-    interest = tables.Interested.query.filter_by(book_id= id)
-    user = interest.interested_id
-    return render_template("user/<id>", user = user)
+    interest = tables.Interested.query.filter_by(book_id= id).first()
+    user_id = interest.interested_id
+    return redirect(url_for('user', id=user_id))
+
+@app.route("/addinterest/<id>", methods =["GET", "POST"])
+@login_required
+def addinterest(id):
+    interested_id = current_user.id
+    book= tables.Book.query.get(id)
+    interest = tables.Interested(owner_id = book.user_id, interested_id = interested_id, book_id = id)
+    try:
+        db.session.add(interest)
+        db.session.commit()
+        flash('Interesse registrado!')
+    except:
+        flash('Erro ao adicionar interesse')
+
+    return redirect(url_for('user', id=book.user_id))

@@ -3,15 +3,13 @@ from flask_login import login_required, login_user, logout_user, current_user
 from app import app, db
 from app.models import tables
 from app.models.userform import signupform, signinform, editprofileform
-import hashlib
 from datetime import datetime
 
 @app.route("/signup", methods = ["GET", "POST"])
 def signup():
     form = signupform()
     if form.validate_on_submit():
-        pw_hash = hashlib.new('sha512')
-        pw_hash.update(str.encode(form.password.data))
+
         user = tables.User(cpfuser= form.cpfuser.data, name= form.name.data, email= form.email.data, password= form.password.data, address= form.address.data, reputation = 0, dtbirth = datetime.strptime(form.dtbirth.data, '%d/%m/%Y'), grant= 0, about_me= form.about_me.data)
         try:
             print(form.email.data)
@@ -34,11 +32,13 @@ def signin():
     form = signinform()
     if form.validate_on_submit():
         user = tables.User.query.filter_by(email=form.email.data).first()
-        if hasattr(user, 'email') and user.verify_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
+
+        if user.email and user.verify_password(form.password.data):
+            print(form.errors)
+            login_user(user)
             return redirect(url_for('index'))
         else:
-            login_user(user, remember=form.remember_me.data)
+            # login_user(user, remember=form.remember_me.data)
             flash('Email ou senha inválidos')
 
     return render_template('user/signin.html', form=form, title='Entrar')
@@ -64,7 +64,7 @@ def edit_profile():
         current_user.name = form.name.data
         current_user.about_me = form.about_me.data
         db.session.commit()
-        return redirect(url_for('edit_profile'))
+        return redirect(url_for('user', id=current_user.id))
     elif request.method == 'GET':
         form.name.data = current_user.name
         form.about_me.data = current_user.about_me

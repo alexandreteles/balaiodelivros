@@ -8,13 +8,13 @@ from app.models.searchModel import searchModel
 def search():
     form= searchModel()
     if form.validate_on_submit():
-        return redirect(url_for('index'))
-    return redirect(url_for('searchresults', search= form.search.data))
+        return redirect(url_for('searchresults', search= form.search.data))
 
 
 @app.route('/searchresults/<search>')
 def searchresults(search):
-    form = searchModel()
-    if form.validate_on_submit():
-        results = tables.Book.query.filter(( tables.Book.title== search)|(tables.Book.author == search)|(tables.Book.type == search)).all()
-        return render_template('book/searchresults.html', title="Balaio de Livros", results=results)
+
+        books = tables.Book.query.filter((tables.Book.title.like(search))|( tables.Book.author.like(search))|( tables.Book.type.like(search))).all()
+
+        print(books)
+        return render_template('book/searchresults.html', books=books)

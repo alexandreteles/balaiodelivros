@@ -9,8 +9,11 @@ from app.models import tables
 @login_required
 def interested(id):
     interest = tables.Interested.query.filter_by(book_id= id).first()
-    user_id = interest.interested_id
-    return redirect(url_for('user', id=user_id))
+    if interest:
+        user_id = interest.interested_id
+        return redirect(url_for('user', id=user_id))
+    else:
+        return redirect(url_for('listbooks', id=current_user.id))
 
 @app.route("/addinterest/<id>", methods =["GET", "POST"])
 @login_required

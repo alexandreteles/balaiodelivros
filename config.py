@@ -12,5 +12,3 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = "199192051312112191512922181519"
 MAX_SEARCH_RESULTS = 10
-
-ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')

@@ -103,7 +103,7 @@ p.copyright {
 
 .intro-divider {
     width: 400px;
-    border-top: 1px solid #f8f8f8;
+    border-top: 1px solid #2e2e1f;
     border-bottom: 1px solid rgba(0,0,0,0.2);
 }
 
@@ -111,7 +111,7 @@ p.copyright {
     padding-top: 50px;
     padding-bottom: 50px;
     text-align: center;
-    color: #f8f8f8;
+    color: #2e2e1f;
     background: url(../img/background.jpg) no-repeat center center;
     background-size: cover;
     height: 100%;

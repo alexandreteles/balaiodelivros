@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="col-md-8 order-md-1">
+        <form class="sale" method="POST">
+            {{form.csrf_token}}
+            <div class="form-group">
+                <h5>Deseja vender o livro: {{book.title}}</h5>
+                <label for="client_mail">Email do Cliente: </label>
+                {{form.client_mail(class= "form-control", placeholder="user@mail.com")}}
+            </div>
+            <div>
+                <button type="button" class="btn btn-secondary">Cancelar</button>
+                <button class="btn btn-primary" type="submit">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

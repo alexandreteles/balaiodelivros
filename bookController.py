@@ -6,7 +6,6 @@ import os
 from app import app, db
 from app.models import tables
 from app.models.bookform import bookform
-
 from config import APP_ROOT
 
 
@@ -16,8 +15,9 @@ def addbook():
     form = bookform()
     if form.validate_on_submit():
         owner_id= current_user.id
-        book = tables.Book(title=form.title.data, author=form.author.data, serie= form.serie.data, school= form.school.data, edition= form.edition.data, translateversion= form.translateversion.data, phisicalstate = form.phisicalstate.data, price = form.price.data, type= form.type.data, user_id= owner_id, sold= 0)
-
+        book = tables.Book(title=form.title.data, author=form.author.data, serie= form.serie.data, school= form.school.data, edition= form.edition.data, translateversion= form.translateversion.data, phisicalstate = form.phisicalstate.data, price = form.price.data, type= form.type.data, user_id= owner_id)
+        print(form.title.data)
+        print(form.price.data)
         try:
             db.session.add(book)
             db.session.commit()
@@ -33,56 +33,34 @@ def editbook(id):
     book = tables.Book.query.get(id)
     form = bookform()
     if form.validate_on_submit():
-
-        book.title=form.title.data
-        book.author=form.author.data
-        book.serie= form.serie.data
-        book.school= form.school.data
-        book.edition= form.edition.data
-        book.translateversion= form.translateversion.data
-        book.phisicalstate = form.phisicalstate.data
-        book.price = form.price.data
-        book.type= form.type.data
-        book.user_id= current_user.id
+        book = tables.Book(title=form.title.data, author=form.author.data, serie= form.serie.data, school= form.school.data, edition= form.edition.data, translateversion= form.translateversion.data, phisicalstate = form.phisicalstate.data, price = form.price.data, type= form.type.data, user_id= current_user.id)
+        print(form.title.data)
+        print(form.price.data)
         try:
+            db.session.add(book)
             db.session.commit()
             flash('Voce editou um livro com sucesso!')
-            return redirect(url_for("listbooks", id =current_user.id))
         except:
             flash('Erro ao editar livro')
-    elif request.method == 'GET':
-        form.title.data  = book.title
-        form.author.data = book.author
-        form.serie.data  = book.serie
-        form.school.data = book.school
-        form.edition.data= book.edition
-        form.translateversion.data = book.translateversion
-        form.phisicalstate.data    = book.phisicalstate
-        form.price.data            = book.price
-        form.type.data             = book.type
-        current_user.id            = book.user_id
 
     return render_template("book/bookform.html", form = form)
-
 
 @app.route("/listbooks/<id>",  methods = ["GET", "POST"])
 @login_required
 def listbooks(id):
-
-    books = tables.Book.query.filter((tables.Book.user_id==id)&(tables.Book.sold == 0)).all()
-    return render_template("book/listbooks.html", books=books, user_id = id)
+    #owner_id = current_user.id
+    #print(current_user.id)
+    books = tables.Book.query.filter_by(user_id=id).all()
+    #books = tables.Book.query.all()
+    return render_template("book/listbooks.html", books=books)
 
 @app.route("/listbooks/deletebook/<id>",  methods = ["GET", "POST"])
 @login_required
 def deletebook(id):
     book = tables.Book.query.get(id)
-    try:
-        db.session.delete(book)
-        db.session.commit()
-        return redirect(url_for("listbooks", id=current_user.id))
-    except:
-        flash('Erro ao editar livro')
-
+    db.session.delete(book)
+    db.session.commit()
+    flash('You have successfully deleted the book.')
     return render_template("book/listbooks.html")
 
 
@@ -95,7 +73,6 @@ def showbook(id):
 @app.route("/uploadImage",  methods = ["GET", "POST"])
 @login_required
 def uploadImage():
-
     target = os.path.join(APP_ROOT, 'app/static/img/')
     print(target)
 
@@ -105,7 +82,6 @@ def uploadImage():
     for file in request.files.getlist("file"):
         print(file)
         filename = file.filename
-        print(file.filename)
         destination = "/".join([target, filename])
         print(destination)
         file.save(destination)

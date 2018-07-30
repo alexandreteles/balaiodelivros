@@ -14,7 +14,7 @@ def search():
 @app.route('/searchresults/<search>')
 def searchresults(search):
 
-        books = tables.Book.query.filter((tables.Book.title.like(search))|( tables.Book.author.like(search))|( tables.Book.type.like(search))).all()
+        books = tables.Book.query.filter((tables.Book.title.like(search))|( tables.Book.author.like(search))|( tables.Book.type.like(search))|( tables.Book.phisicalstate.like(search))).all()
 
         print(books)
         return render_template('book/searchresults.html', books=books)

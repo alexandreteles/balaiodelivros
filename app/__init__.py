@@ -4,7 +4,6 @@ from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
-from elasticsearch import Elasticsearch
 
 
 app = Flask(__name__)
@@ -23,9 +22,8 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 
-from app.controllers import routes, bookController, searchController, interestedController, userController
+from app.controllers import indexController, bookController, searchController, interestedController, userController, saleController
 from app.models import tables
 
-app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
-    if app.config['ELASTICSEARCH_URL'] else None
+
 

@@ -54,13 +54,13 @@ class Book(db.Model):
     translateversion = db.Column(db.String(80))
     phisicalstate = db.Column(db.Text, nullable=False)
     type = db.Column(db.String(80), nullable=False)
-    #sold = db.Column(db.Integer)
+    sold = db.Column(db.Integer)
     price = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     
     user = db.relationship('User', foreign_keys = user_id)
 
-    def __init__ (self, title, author, serie, school, edition, translateversion, phisicalstate, price, user_id, type):
+    def __init__ (self, title, author, serie, school, edition, translateversion, phisicalstate, price, user_id, type, sold):
         self.title = title
         self.author = author
         self.serie = serie
@@ -71,9 +71,25 @@ class Book(db.Model):
         self.price = price
         self.user_id= user_id
         self.type = type
+        self.sold = sold
 
     def __repr__(self):
-        return "<Book %r>" % self.title     
+        return "<Book %r>" % self.title
+
+class BookImage(db.Model):
+    __tablename__ = "bookimages"
+
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    data = db.Column(db.LargeBinary)
+    name = db.Column(db.String(80))
+    book_id = db.Column(db.Integer, db.ForeignKey("books.id"))
+
+    book = db.relationship('Book', foreign_keys=book_id)
+
+    def __init__(self, data, name, book_id):
+        self.data = data
+        self.name= name
+        self.book_id = book_id
 
 class Interested(db.Model):
     __tablename__ = "interested"
@@ -94,36 +110,25 @@ class Interested(db.Model):
     
     def __repr__(self):
         return "<Interest %r>"% self.book_id
-    
-class Ad(db.Model):
-    __tablename__ = "ads"
+
+
+class Sale(db.Model):
+    __tablename__ = "sales"
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    vendor_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    client_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     book_id = db.Column(db.Integer, db.ForeignKey("books.id"))
 
-    user = db.relationship('User', foreign_keys = user_id)
-    book = db.relationship('Book', foreign_keys = book_id)
-
-    def __init__ (self, user_id, book_id):
-        self.user_id = user_id
-        self.book_id = book_id
-    
-    def __repr__(self):
-        return "<Interest %r>"% self.book_id
-
-class BookImage(db.Model):
-    __tablename__ = "bookimages"
-
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    data = db.Column(db.LargeBinary)
-    name = db.Column(db.String(80))
-    book_id = db.Column(db.Integer, db.ForeignKey("books.id"))
-
+    user = db.relationship('User', foreign_keys=vendor_id)
+    user2 = db.relationship('User', foreign_keys=client_id)
     book = db.relationship('Book', foreign_keys=book_id)
 
-    def __init__(self, data, name, book_id):
-        self.data = data
-        self.name= name
+    def __init__(self, vendor_id, book_id, client_id):
+        self.vendor_id = vendor_id
+        self.client_id = client_id
         self.book_id = book_id
+
+    def __repr__(self):
+        return "<Interest %r>" % self.book_id
 

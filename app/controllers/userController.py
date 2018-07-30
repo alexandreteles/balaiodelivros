@@ -64,11 +64,9 @@ def edit_profile():
         current_user.name = form.name.data
         current_user.about_me = form.about_me.data
         db.session.commit()
-<<<<<<< HEAD
+
         return redirect(url_for('user', id=current_user.id))
-=======
-        return redirect(url_for('edit_profile'))
->>>>>>> ffcbbf1ed35ba574f13b78c7189c745b88bbb44b
+
     elif request.method == 'GET':
         form.name.data = current_user.name
         form.about_me.data = current_user.about_me

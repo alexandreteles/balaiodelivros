@@ -1,33 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 
-<<<<<<< HEAD
-
 <div class="container">
     <h1>Edite seu Perfil</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
             <label>Nome: </label><br>
-=======
-<h1>Edite seu Perfil</h1>
-<div class="container">
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.name.label }}<br>
->>>>>>> ffcbbf1ed35ba574f13b78c7189c745b88bbb44b
+
             {{ form.name(size=32) }}<br>
             {% for error in form.name.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
-<<<<<<< HEAD
+
             <label>Sobre mim: </label><br>
-=======
-            {{ form.about_me.label }}<br>
->>>>>>> ffcbbf1ed35ba574f13b78c7189c745b88bbb44b
+
             {{ form.about_me(cols=50, rows=4) }}<br>
             {% for error in form.about_me.errors %}
             <span style="color: red;">[{{ error }}]</span>
